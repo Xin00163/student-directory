@@ -1,24 +1,16 @@
 def input_students
-  puts "Please enter the names of the students"
+  puts "Please enter the name of the student, their cohort, their hobby, their
+  country of birth and height seperated by ',' without any spaces\n"
   puts "To finish, just hit return twice"
   students = []
-  name = gets.chomp
-  puts "What is " + name + "'s hobby?"
-  hobbies = gets.chomp
-  puts "Which country was " + name + " born?"
-  country_of_birth = gets.chomp
-  puts "What is " + name + "'s height?"
-  height = gets.chomp
+  name = STDIN.gets.strip
 
-  #while the name is not empty, repeat this code
   while !name.empty? do
-    # add the student hash to the array
-    students << {name: name, cohort: :november, hobbies: hobbies,
-      country_of_birth: country_of_birth, height: height}
+    s_directory = name.split(",")
+    students << {:name => s_directory[0], :cohort => s_directory[1].to_sym,
+                 :hobby => s_directory[2], :cob => s_directory[3], :height => s_directory[4]}
     puts "Now we have #{students.count} students"
-    #get another name from the user
-    name = gets.chomp
-
+    name = STDIN.gets.strip
   end
   # return the array of students
   students
@@ -29,29 +21,24 @@ def print_header
   puts "---------------"
 end
 
-#ex2. print the students whose name begins with a specific letter
-def print_first_letter(students)
-  puts "What is the first letter?"
-  first_letter = gets.chomp.downcase
+def print_student_list(students)
   students.each_with_index do |student, index|
-    if student[:name].length < 12 && student[:name][0].downcase == first_letter.downcase
-    # ex1. add the index
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
-    end
+    line_width = 30
+    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)".ljust(line_width)
+    puts "   Hobby: #{student[:hobby]}".ljust(line_width)
+    puts "   COB: #{student[:cob]}".ljust(line_width)
+    puts "   Height: #{student[:height]}".ljust(line_width)
   end
 end
 
-# ex4. while method
-def print_while(students)
-  i = 0
-  while i < students.length
-    puts "#{students[i][:name]} (#{students[i][:cohort]} cohort)"
-    puts "Hobby: #{students[i][:hobbies]}"
-    puts "Birth country : #{students[i][:country_of_birth]}"
-    puts "Height is #{students[i][:height]}"
-    i += 1
-  end
-end
+# # ex4. while method
+# def print_while(students)
+#   i = 0
+#   while i < students.length
+#     puts "#{students[i][:name]} (#{students[i][:cohort]} cohort)"
+#     i += 1
+#   end
+# end
 
 def print_footer(students)
   puts "Overall, we have #{students.count} great students"
@@ -61,6 +48,5 @@ end
 #Here is to create a students varibla to store the result of the method, so that it could be passed to others.
 students = input_students
 print_header
-print_first_letter(students)
-print_while(students)
+print_student_list(students)
 print_footer(students)
