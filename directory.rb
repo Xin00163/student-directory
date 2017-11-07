@@ -21,9 +21,15 @@ def print_header
   puts "---------------"
 end
 
-def print(students)
+# ex2. print the students whose name begins with a specific letter
+def print_first_letter(students)
+  puts "What is the first letter?"
+  first_letter = gets.chomp.downcase
   students.each_with_index do |student, index|
+    if student[:name][0].downcase == first_letter.downcase
+    # ex1. add the index
     puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
   end
 end
 
@@ -33,5 +39,5 @@ end
 
 students = input_students #store the results of the method in the variable called students?
 print_header
-print(students)
+print_first_letter(students)
 print_footer(students)
