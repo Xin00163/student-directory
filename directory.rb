@@ -26,7 +26,7 @@ def print_first_letter(students)
   puts "What is the first letter?"
   first_letter = gets.chomp.downcase
   students.each_with_index do |student, index|
-    if student[:name][0].downcase == first_letter.downcase
+    if student[:name].length < 12 && student[:name][0].downcase == first_letter.downcase
     # ex1. add the index
     puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
     end
