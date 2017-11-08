@@ -13,7 +13,12 @@ def input_students
     end
     #add the student hash to the array
     students << {name: name, cohort: cohort.to_sym}
+    if students.count > 1
     puts "Now we have #{students.count} students"
+    end
+    if students.count == 1
+    puts "Now we have #{students.count} student"
+    end
     puts "Please enter a name"
     name = gets.chomp
   end
