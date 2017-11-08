@@ -3,11 +3,11 @@ def input_students
   puts "To finish, just hit return twice"
   students = []
   #get the first name
-  name = gets.chomp
+  name = gets.strip
   #while the name is not empty repeat this code
   while !name.empty? do
     puts "Please enter the students' cohort"
-    cohort = gets.chomp
+    cohort = gets.strip
     if cohort.empty?
       cohort = :not_decided
     end
@@ -20,7 +20,7 @@ def input_students
     puts "Now we have #{students.count} student"
     end
     puts "Please enter a name"
-    name = gets.chomp
+    name = gets.strip
   end
   students
 end
