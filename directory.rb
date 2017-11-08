@@ -1,33 +1,40 @@
+cohort_list =[:january,:february,:march,:april,:may,:june,:july,:august,:september,:october,:november,:december]
+
 def input_students
-  puts "Please enter the name of the student, their cohort, their hobby, their
-  country of birth and height seperated by ',' without any spaces\n"
+  puts "Please enter the name of the students"
   puts "To finish, just hit return twice"
   students = []
-  name = STDIN.gets.strip
-
+  #get the first name
+  name = gets.chomp
+  #while the name is not empty repeat this code
   while !name.empty? do
-    s_directory = name.split(",")
-    students << {:name => s_directory[0], :cohort => s_directory[1].to_sym,
-                 :hobby => s_directory[2], :cob => s_directory[3], :height => s_directory[4]}
+    puts "Please enter the students' cohort"
+    cohort = gets.chomp
+    if cohort.empty?
+      cohort = :not_decided
+    end
+    #add the student hash to the array
+    students << {name: name, cohort: cohort.to_sym}
     puts "Now we have #{students.count} students"
-    name = STDIN.gets.strip
+    puts "Please enter a name"
+    name = gets.chomp
   end
-  # return the array of students
   students
 end
 
+def center_align(text)
+  width = 100
+  puts text.center(width)
+end
+
 def print_header
-  puts "The students of D Academy"
-  puts "---------------"
+  center_align("The students of D Academy")
+  center_align("---------------")
 end
 
 def print_student_list(students)
-  students.each_with_index do |student, index|
-    line_width = 30
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)".ljust(line_width)
-    puts "   Hobby: #{student[:hobby]}".ljust(line_width)
-    puts "   COB: #{student[:cob]}".ljust(line_width)
-    puts "   Height: #{student[:height]}".ljust(line_width)
+  students.each_with_index do |student, i|
+    center_align("#{i + 1}. #{students[i][:name]} (cohort: #{students[i][:cohort]})")
   end
 end
 
@@ -41,7 +48,7 @@ end
 # end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+  center_align("Overall, we have #{students.count} great students")
 end
 
 #notes: students in the method input_students could only be used inside the method.
