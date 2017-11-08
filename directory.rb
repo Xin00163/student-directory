@@ -1,5 +1,3 @@
-cohort_list =[:january,:february,:march,:april,:may,:june,:july,:august,:september,:october,:november,:december]
-
 def input_students
   puts "Please enter the name of the students"
   puts "To finish, just hit return twice"
@@ -33,6 +31,13 @@ def print_header
 end
 
 def print_student_list(students)
+  if students.empty?
+    center_align("Please enter one student.")
+    puts
+  end
+  cohort_list =[:january,:february,:march,:april,:may,:june,:july,:august,
+                :september,:october,:november,:december]
+  students = students.sort_by {|student| cohort_list.index(student[:cohort])}
   students.each_with_index do |student, i|
     center_align("#{i + 1}. #{students[i][:name]} (cohort: #{students[i][:cohort]})")
   end
