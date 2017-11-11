@@ -1,7 +1,35 @@
+@students = []
+def interactive_menu
+  loop do
+  # 1. print the menu and ask the user what to do
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+  # 2. read the input and save it into a variable
+  selection = gets.chomp
+  # 3. do what the user has asked
+  case selection
+    when "1"
+    # input the students
+    students = input_students
+    when "2"
+    # show the students
+    print_header
+    print_student_list
+    print_footer
+    when "9"
+    exit # this will cause the program to terminate
+    else
+    puts "I don't know what you meant, try again"
+  end
+
+  # 4. repeat from step 1
+  end
+end
+
 def input_students
   puts "Please enter the name of the students"
   puts "To finish, just hit return twice"
-  students = []
   #get the first name
   name = gets.strip
   #while the name is not empty repeat this code
@@ -12,17 +40,16 @@ def input_students
       cohort = :not_decided
     end
     #add the student hash to the array
-    students << {name: name, cohort: cohort.to_sym}
-    if students.count > 1
-    puts "Now we have #{students.count} students"
+    @students << {name: name, cohort: cohort.to_sym}
+    if @students.count > 1
+    puts "Now we have #{@students.count} students"
     end
-    if students.count == 1
-    puts "Now we have #{students.count} student"
+    if @students.count == 1
+    puts "Now we have #{@students.count} student"
     end
     puts "Please enter a name"
     name = gets.strip
   end
-  students
 end
 
 def center_align(text)
@@ -35,18 +62,19 @@ def print_header
   center_align("---------------")
 end
 
-def print_student_list(students)
-  if students.empty?
+def print_student_list
+  if @students.empty?
     center_align("Please enter one student.")
     puts
   end
   cohort_list =[:january,:february,:march,:april,:may,:june,:july,:august,
                 :september,:october,:november,:december]
-  students = students.sort_by {|student| cohort_list.index(student[:cohort])}
-  students.each_with_index do |student, i|
-    center_align("#{i + 1}. #{students[i][:name]} (cohort: #{students[i][:cohort]})")
+  @students = @students.sort_by {|student| cohort_list.index(student[:cohort])}
+  @students.each_with_index do |student, i|
+    center_align("#{i + 1}. #{@students[i][:name]} (cohort: #{@students[i][:cohort]})")
   end
 end
+
 
 # # ex4. while method
 # def print_while(students)
@@ -57,13 +85,11 @@ end
 #   end
 # end
 
-def print_footer(students)
-  center_align("Overall, we have #{students.count} great students")
+def print_footer
+  center_align("Overall, we have #{@students.count} great students")
 end
 
 #notes: students in the method input_students could only be used inside the method.
 #Here is to create a students varibla to store the result of the method, so that it could be passed to others.
-students = input_students
-print_header
-print_student_list(students)
-print_footer(students)
+
+interactive_menu()
