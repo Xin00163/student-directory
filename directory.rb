@@ -1,29 +1,33 @@
 @students = []
 def interactive_menu
   loop do
-  # 1. print the menu and ask the user what to do
+    print_menu
+    process(gets.chomp)
+  end
+end
+
+def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "9. Exit"
-  # 2. read the input and save it into a variable
-  selection = gets.chomp
-  # 3. do what the user has asked
+end
+
+def show_students
+  print_header
+  print_student_list
+  print_footer
+end
+
+def process(selection)
   case selection
     when "1"
-    # input the students
-    students = input_students
+      input_students
     when "2"
-    # show the students
-    print_header
-    print_student_list
-    print_footer
+      show_students
     when "9"
     exit # this will cause the program to terminate
     else
     puts "I don't know what you meant, try again"
-  end
-
-  # 4. repeat from step 1
   end
 end
 
@@ -67,29 +71,20 @@ def print_student_list
     center_align("Please enter one student.")
     puts
   end
-  cohort_list =[:january,:february,:march,:april,:may,:june,:july,:august,
-                :september,:october,:november,:december]
-  @students = @students.sort_by {|student| cohort_list.index(student[:cohort])}
+  # cohort_list =[:january,:february,:march,:april,:may,:june,:july,:august,
+  #               :september,:october,:november,:december]
+  # @students = @students.sort_by {|student| cohort_list.index(student[:cohort])}
   @students.each_with_index do |student, i|
     center_align("#{i + 1}. #{@students[i][:name]} (cohort: #{@students[i][:cohort]})")
   end
 end
 
 
-# # ex4. while method
-# def print_while(students)
-#   i = 0
-#   while i < students.length
-#     puts "#{students[i][:name]} (#{students[i][:cohort]} cohort)"
-#     i += 1
-#   end
-# end
 
 def print_footer
   center_align("Overall, we have #{@students.count} great students")
 end
 
-#notes: students in the method input_students could only be used inside the method.
-#Here is to create a students varibla to store the result of the method, so that it could be passed to others.
+
 
 interactive_menu()
