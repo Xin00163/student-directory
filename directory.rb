@@ -2,7 +2,7 @@
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -41,11 +41,11 @@ def input_students
   puts "Please enter the name of the students"
   puts "To finish, just hit return twice"
   #get the first name
-  name = gets.strip
+  name = STDIN.gets.chomp
   #while the name is not empty repeat this code
   while !name.empty? do
     puts "Please enter the students' cohort"
-    cohort = gets.strip
+    cohort = STDIN.gets.chomp
     if cohort.empty?
       cohort = :not_decided
     end
@@ -58,7 +58,7 @@ def input_students
     puts "Now we have #{@students.count} student"
     end
     puts "Please enter a name"
-    name = gets.strip
+    name = STDIN.gets.strip
   end
 end
 
@@ -72,13 +72,25 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')#parallel assignment
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
+end
+
+def try_load_students
+  filename = ARGV.first# first argument from the command line
+  return if filename.nil?# get out of the method if it isn't given
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else #if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit #quit the program
+  end
 end
 
 def center_align(text)
@@ -111,5 +123,5 @@ def print_footer
 end
 
 
-
+try_load_students
 interactive_menu()
