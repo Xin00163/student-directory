@@ -37,6 +37,10 @@ def process(selection)
   end
 end
 
+def add_to_students_array(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
+end
+
 def input_students
   puts "Please enter the name of the students"
   puts "To finish, just hit return twice"
@@ -50,16 +54,21 @@ def input_students
       cohort = :not_decided
     end
     #add the student hash to the array
-    @students << {name: name, cohort: cohort.to_sym}
-    if @students.count > 1
+    add_to_students_array(name, cohort)
+
     puts "Now we have #{@students.count} students"
-    end
-    if @students.count == 1
-    puts "Now we have #{@students.count} student"
-    end
     puts "Please enter a name"
     name = STDIN.gets.strip
   end
+end
+
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
+  file.readlines.each do |line|
+  name, cohort = line.chomp.split(',')#parallel assignment
+    add_to_students_array(name, cohort)
+  end
+  file.close
 end
 
 def save_students
@@ -72,14 +81,6 @@ def save_students
   file.close
 end
 
-def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')#parallel assignment
-    @students << {name: name, cohort: cohort.to_sym}
-  end
-  file.close
-end
 
 def try_load_students
   filename = ARGV.first# first argument from the command line
