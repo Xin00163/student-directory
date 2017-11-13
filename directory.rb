@@ -24,16 +24,25 @@ def process(selection)
   case selection
     when "1"
       input_students
+      puts
     when "2"
+      center_align("Here are all the students in the directory...")
+      puts
       show_students
     when "3"
       save_students
+      puts
+      center_align("Students' data has been saved in the students.csv file...")
     when "4"
       load_students
+      puts
+      center_align("Successfully loaded all the students' data...")
     when "9"
-    exit # this will cause the program to terminate
+      center_align("Thank you, Bye...")
+      puts
+      exit # this will cause the program to terminate
     else
-    puts "I don't know what you meant, try again"
+      puts "I don't know what you meant, try again"
   end
 end
 
@@ -92,6 +101,7 @@ def try_load_students
     puts "Sorry, #{filename} doesn't exist."
     exit #quit the program
   end
+
 end
 
 def center_align(text)
