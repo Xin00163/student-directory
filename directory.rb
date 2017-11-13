@@ -1,3 +1,4 @@
+require 'csv'
 @students = []
 def interactive_menu
   loop do
@@ -9,7 +10,7 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
+  puts "3. Save the list to a file"
   puts "4. Load the list from students.csv"
   puts "9. Exit"
 end
@@ -32,7 +33,7 @@ def process(selection)
     when "3"
       save_students
       puts
-      center_align("Students' data has been saved in the students.csv file...")
+      center_align("Students' data has been saved in the file...")
     when "4"
       load_students
       puts
@@ -71,23 +72,30 @@ def input_students
   end
 end
 
-def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')#parallel assignment
-    add_to_students_array(name, cohort)
+def get_file_name
+  puts "Please enter the name of your file with a .csv extention or hit enter to save as students.csv"
+  @file_name = STDIN.gets.chomp
+  if @file_name.empty?
+    @file_name = "students.csv"
   end
-  file.close
+  @file_name
+end
+
+def load_students(filename = "students.csv")
+  CSV.foreach("students.csv") do |row|
+      name, cohort = row#parallel assignment
+      add_to_students_array(name, cohort)
+  end
 end
 
 def save_students
-  file = File.open("students.csv", "w")
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  get_file_name
+  CSV.open(@file_name, "w") do |csv|
+    @students.each do |student|
+    csv << [student[:name], student[:cohort]]
+    end
   end
-  file.close
+  puts "Your file has been saved as #{@file_name}"
 end
 
 
